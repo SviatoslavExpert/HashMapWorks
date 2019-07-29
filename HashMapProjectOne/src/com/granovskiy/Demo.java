@@ -43,7 +43,10 @@ public class Demo {
 
         cars.replace(7, new Car(11, "Volvo", 60000));
         System.out.println(cars);
-
-
+        System.out.println();
+        System.out.println("Map elements with their object hashCodes:");
+        for (Map.Entry car : cars.entrySet()) {
+            System.out.println(car.getKey() + " " + car.getValue() + " " + car.getValue().hashCode());
+        }
     }
 }
