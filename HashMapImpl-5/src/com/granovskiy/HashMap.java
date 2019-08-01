@@ -1,23 +1,18 @@
 package com.granovskiy;
 
 import java.util.Arrays;
+import java.util.List;
 
-public class HashMap<Car, Driver> {
+public class HashMap<Entry> {
     private final int DEFAULT_CAPACITY = 16;
     private final float DEFAULT_LOAD_FACTOR = 0.75f;
     private int size;
-    //private Entry<Car, Driver>[] table;
-    Car car;
-    Driver driver;
+    //List<Entry> hash_map;
+    Entry[] hash_map;
 
-    public HashMap() {
+    public HashMap(int size, Entry[] hash_map) {
         this.size = size;
-    }
-
-    public HashMap(int size, Car car, Driver driver) {
-        this.size = size;
-        this.car = car;
-        this.driver = driver;
+        this.hash_map = hash_map;
     }
 
     public int getDEFAULT_CAPACITY() {
@@ -36,22 +31,13 @@ public class HashMap<Car, Driver> {
         this.size = size;
     }
 
-    public Car getCar() {
-        return car;
+    public Entry[] getHash_map() {
+        return hash_map;
     }
 
-    public void setCar(Car car) {
-        this.car = car;
+    public void setHash_map(Entry[] hash_map) {
+        this.hash_map = hash_map;
     }
-
-    public Driver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(Driver driver) {
-        this.driver = driver;
-    }
-
 
     @Override
     public String toString() {
@@ -59,12 +45,7 @@ public class HashMap<Car, Driver> {
                 "DEFAULT_CAPACITY=" + DEFAULT_CAPACITY +
                 ", DEFAULT_LOAD_FACTOR=" + DEFAULT_LOAD_FACTOR +
                 ", size=" + size +
-                ", car=" + car +
-                ", driver=" + driver +
+                ", hash_map=" + Arrays.toString(hash_map) +
                 '}';
     }
-
-/*    public void add(Car car, Driver driver) {
-        this.put(car, driver);
-    }*/
 }

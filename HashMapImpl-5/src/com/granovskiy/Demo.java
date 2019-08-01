@@ -1,7 +1,5 @@
 package com.granovskiy;
 
-import java.util.*;
-
 public class Demo {
     public static void main(String[] args) {
         //  making objects
@@ -28,6 +26,7 @@ public class Demo {
         Driver driver10 = new Driver("Mark");
         Driver driver11 = new Driver("Steve");
 
+        // making entries
         int mapSize = 16;
         Entry<Car, Driver> entry1 = new Entry<>(car1, driver1);
         Entry<Car, Driver> entry2 = new Entry<>(car2, driver2);
@@ -41,7 +40,7 @@ public class Demo {
         Entry<Car, Driver> entry10 = new Entry<>(car10, driver10);
         Entry<Car, Driver> entry11 = new Entry<>(car11, driver11);
 
-        //  getting the bucket numbers
+        //  getting bucket numbers
         int bucketNumber1 = car1.hashCode() % mapSize;
         int bucketNumber2 = car2.hashCode() % mapSize;
         int bucketNumber3 = car3.hashCode() % mapSize;
@@ -66,28 +65,27 @@ public class Demo {
         System.out.println("hashCode10 : " + car10.hashCode() + " , " + "bucketNumber : " + (bucketNumber10 + 1));
         System.out.println("hashCode11 : " + car11.hashCode() + " , " + "bucketNumber : " + (bucketNumber11 + 1));
 
-        //HashMap<Car, Driver> hash_map = new HashMap<>(mapSize, car1, driver1);
-        //System.out.println(hash_map);
 
-        HashMap<Car, Driver> hash_map = new HashMap<>();
-        hash_map.put(car1, driver1);
-        System.out.println(hash_map);
-    }
 
-    public static class Bucket {
+        Entry<Car, Driver> entry15 = new Entry<>(car1, new Driver("Tim"));
 
+        Entry[] hashMap = new Entry[mapSize];
+
+        //hashMap[bucketNumber1] = new Entry<>(car1, driver1);
+        int bucketNumber;
+        for (int i = 0; i < mapSize; i++) {
+            Car car = new Car(i);
+            System.out.println(car);
+            System.out.println(car.hashCode());
+            bucketNumber = car.hashCode() % mapSize;
+            System.out.println(bucketNumber);
+            Entry<Car, Driver> entry = new Entry<>(car, new Driver("Tim"));
+            System.out.println(entry);
+            hashMap[bucketNumber] = entry;
+        }
+        for (int i = 0; i < mapSize; i++) {
+            System.out.println(hashMap[i] + " ");
+        }
     }
 }
 
-
-
-
-
-
-
-//HashMap<Entry> hash_map = new HashMap<Entry>(mapSize, entry1);
-//Entry[] carArray = new Entry[2];
-
-//List<Car, Driver> a = new ArrayList<>();
-//carArray[0] = car1;
-//Entry entry = new Entry(int[car1, driver1] arr);
