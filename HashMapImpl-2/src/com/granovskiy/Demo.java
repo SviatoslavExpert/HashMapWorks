@@ -16,8 +16,8 @@ public class Demo {
         hashMap.put("China", "Beijing");
         hashMap.put("Ukraine", "Kyiv");
         hashMap.put("The Netherlands", "Amsterdam");
-       hashMap.put("The UK", "London");
-/*         hashMap.put("Egypt", "Cairo");
+      hashMap.put("The UK", "London");
+/*        hashMap.put("Egypt", "Cairo");
         hashMap.put("Turkey", "Istanbul");
         hashMap.put("Japan", "Tokyo");*/
         System.out.println(hashMap.size());
