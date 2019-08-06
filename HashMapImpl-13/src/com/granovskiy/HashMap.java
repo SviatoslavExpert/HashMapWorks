@@ -5,14 +5,14 @@ import java.util.List;
 public class HashMap {
     public static final int DEFAULT_CAPACITY = 16;
     private final int DEFAULT_LOAD_FACTOR = 75;
-    private int size;
+    //private int size;
     //List<Entry> hash_map;
     //HashMap<Entry> hashMapEntry;
     //Entry[] hash_map;
 
-    private List<Entry> entries;
+    List<List<Entry>> entries;
 
-    public HashMap(List<Entry> entries) {
+    public HashMap(List<List<Entry>> entries) {
         this.entries = entries;
     }
 
@@ -24,20 +24,35 @@ public class HashMap {
         return DEFAULT_LOAD_FACTOR;
     }
 
-    public List<Entry> getEntries() {
+    public List<List<Entry>> getEntries() {
         return entries;
     }
 
-    public void setEntries(List<Entry> entries) {
+    public void setEntries(List<List<Entry>> entries) {
         this.entries = entries;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public String toString() {
         return "HashMap{" +
                 "DEFAULT_CAPACITY=" + DEFAULT_CAPACITY +
                 ", DEFAULT_LOAD_FACTOR=" + DEFAULT_LOAD_FACTOR +
-                ", size=" + size +
                 ", entries=" + entries +
                 '}';
     }

@@ -1,11 +1,12 @@
 package com.granovskiy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Entry<Car, Driver> {
     private Car car;
     private Driver driver;
-    private List<Entry> innerEntryList;
+    private List<Entry> innerEntryList = new ArrayList<>();;
 
     public Entry(Car car, Driver driver) {
         this.car = car;
@@ -15,6 +16,7 @@ public class Entry<Car, Driver> {
     public Entry(List<Entry> innerEntryList) {
         this.innerEntryList = innerEntryList;
     }
+
 
     public Car getCar() {
         return car;
@@ -39,6 +41,7 @@ public class Entry<Car, Driver> {
     public void setInnerEntryList(List<Entry> innerEntryList) {
         this.innerEntryList = innerEntryList;
     }
+
 
     @Override
     public String toString() {
