@@ -8,7 +8,7 @@ public class Entry<Car, Driver> {
     private List<Car> innerCarList;
     private List<Driver> innerDriverList;
 
-    public Entry(List<Car> innerCarList, List<Driver> innerDriverList) {
+    public Entry(List<Car> innerCarList.get(k), List<Driver> innerDriverList) {
         this.innerCarList = innerCarList;
         this.innerDriverList = innerDriverList;
     }
@@ -47,6 +47,9 @@ public class Entry<Car, Driver> {
 
     @Override
     public String toString() {
+        for (int i = 0; i < 11; i++) {                  //   to be improved  !!!
+
+        }
         return "Entry{" +
                 "innerCarList=" + innerCarList +
                 ", innerDriverList=" + innerDriverList +
