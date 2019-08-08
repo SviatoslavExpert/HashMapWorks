@@ -44,32 +44,40 @@ public class HashMap {
     }
 
     private void fillHashMap(HashMap hm, List<Bucket<Entry<Car, Driver>>> entriesContainer, int mapSize) {
-        this.entriesContainer = entriesContainer;
+        //this.entriesContainer = entriesContainer;
         int bucketNumber;
         int hashCodeValue;
-        Provider provider = new Provider();
         int i;
+        Provider provider = new Provider();
         for (i = 0; i < mapSize + 12; i++) {
             Car car = new Car(i);
             Driver driver = new Driver(provider.getDriverNames()[i]);
             hashCodeValue = car.hashCode();
             bucketNumber = hashCodeValue % mapSize;
+            // check if a bucket with such number already exists (iterate entriesContainer)
+            //if yes, add entry to the bucket
+            // if not, we create a new bucket
             Bucket<Entry<Car, Driver>> bucket = new Bucket(14);      //  bucket  initialized
             int bucketSize = bucket.getBucketSize();
             if (bucketNumber <= mapSize) {
                 System.out.println("BucketNumber: " + bucketNumber);
                 Entry<Car, Driver> entry = new Entry<>(car, driver);
                 System.out.println("entry: " + entry);
-
-
                 bucket.setEntry(entry);
                 System.out.println("bucket" + bucketNumber + ": " + bucket);
+                //   create new list
+                //   add new entry to the list
+                //   initialize bucketlist with the created list
+
+                //   in the future we add entries to the bucketlist
 
 
-               entriesContainer.add(bucketNumber, bucket);              //  Each entry is added to the list !!!!!
+                entriesContainer.add(bucketNumber, bucket);              //  Each entry is added to the list !!!!!
                 System.out.println("entriesContainer: " + entriesContainer);
+                System.out.println("hm.entriesContainer: " + hm.entriesContainer);
                 System.out.println("=====================");
                  if(checkIfBucketNumberWasUsed(bucketNumber, bucket, bucketSize)) {
+                     System.out.println();
                     if(checkIfCollisionIs(entry, bucket, hashCodeValue, bucketSize, i)) {
                         //  replace the previous object
                         //bucket.setEntry(entry);
@@ -78,6 +86,7 @@ public class HashMap {
                         //  add to the bucket as next object
                     }
                 }
+                System.out.println();
 
                 /*if (countFilledSpaces(hm, mapSize) == mapSize * hm.getDEFAULT_LOAD_FACTOR() / 100) {
                     mapSize = mapSize * 2;
@@ -90,30 +99,27 @@ public class HashMap {
     }
 
     private boolean checkIfBucketNumberWasUsed(int bucketNumber, Bucket<Entry<Car, Driver>> bucket, int bucketSize) {
-        boolean isBoolean = true;
-        for (int i = 0; i < bucketSize; i++) {
+        boolean booleanFlag= false;
+        for (int i = 0; i < mapSize; i++) {
             if(entriesContainer.get(i) != null) {
-                isBoolean =  true;
-                System.out.print("BucketNumberWasUsed");
-                return isBoolean;
+                System.out.print("BucketNumber Was Used.  ");
+                booleanFlag = true;
             } else {
-                System.out.print("BucketNumberWasNotUsed");
-                isBoolean = false;
-
+                System.out.print("BucketNumber Was Not Used.  ");
+                booleanFlag = false;
             }
         }
-        return isBoolean;
+        return booleanFlag;
     }
 
     private boolean checkIfCollisionIs(Entry<Car, Driver> entry, Bucket<Entry<Car, Driver>> bucket, int hashCodeValue, int bucketSize, int i) {
-        boolean isFlag = true;
+        boolean isFlag = false;
         for (int k = 0; k < i; k++) {
             if(hashCodeValue == entry.getCar().hashCode()) {
                 System.out.print("Collision is.");
                 isFlag = true;
-                return isFlag;
             } else {
-                System.out.println("No collision.");
+                System.out.print("No collision.");
                 isFlag = false;
             }
         }

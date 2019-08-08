@@ -73,6 +73,7 @@ public class HashMap {
                     if(checkIfCollisionIs(entry, bucket, hashCodeValue, bucketSize, i)) {
                         //  replace the previous object
                         //bucket.setEntry(entry);
+                        bucket.setBucketList();
 
                     } else {
                         //  add to the bucket as next object
