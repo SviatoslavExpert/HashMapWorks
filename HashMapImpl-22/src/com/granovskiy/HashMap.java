@@ -33,18 +33,18 @@ public class HashMap {
 
     //  MY METHODS
     private void makeEmptyHashMap() {
-        HashMap hm = new HashMap(mapSize);
+        //HashMap hm = new HashMap(mapSize);
         for (int i = 0; i < mapSize; i++) {
             entriesContainer.add(null);
         }
+
         System.out.println("entriesContainer: " + entriesContainer);  //  entriesContainer
-        System.out.println("hashMap: " + hm);
+        System.out.println("hashMap: ");
         System.out.println();
-        fillHashMap(hm, entriesContainer, mapSize);
+        prepareToFillHashMap(entriesContainer, mapSize);
     }
 
-    private void fillHashMap(HashMap hm, List<Bucket<Entry<Car, Driver>>> entriesContainer, int mapSize) {
-        //this.entriesContainer = entriesContainer;
+    private void prepareToFillHashMap(List<Bucket<Entry<Car, Driver>>> entriesContainer, int mapSize) {
         int bucketNumber;
         int hashCodeValue;
         int i;
@@ -54,39 +54,47 @@ public class HashMap {
             Driver driver = new Driver(provider.getDriverNames()[i]);
             hashCodeValue = car.hashCode();
             bucketNumber = hashCodeValue % mapSize;
-            // check if a bucket with such number already exists (iterate entriesContainer)
-            //if yes, add entry to the bucket
-            // if not, we create a new bucket
-            Bucket<Entry<Car, Driver>> bucket = new Bucket(14);      //  bucket  initialized
-            int bucketSize = bucket.getBucketSize();
-            if (bucketNumber <= mapSize) {
-                System.out.println("BucketNumber: " + bucketNumber);
-                Entry<Car, Driver> entry = new Entry<>(car, driver);
-                System.out.println("entry: " + entry);
-                bucket.setEntry(entry);
-                System.out.println("bucket" + bucketNumber + ": " + bucket);
-                //   create new list
-                //   add new entry to the list
-                //   initialize bucketlist with the created list
+            fillHashMap(car, driver, bucketNumber, hashCodeValue, i);
+        }
+    }
 
-                //   in the future we add entries to the bucketlist
+    private void fillHashMap(Car car, Driver driver, int bucketNumber, int hashCodeValue, int i) {
+        // check if a bucket with such number already exists (iterate entriesContainer)
+        //if yes, add entry to the bucket
+        // if not, we create a new bucket
+        for (int j = 0; j < entriesContainer.size(); j++) {
+            //bucketNumber == entriesContainer.get(j).getBucketList();
+        }
+        Bucket<Entry<Car, Driver>> bucket = new Bucket(14);      //  bucket  initialized
+        int bucketSize = bucket.getBucketSize();
+        if (bucketNumber <= mapSize) {
+            System.out.println("BucketNumber: " + bucketNumber);
+            Entry<Car, Driver> entry = new Entry<>(car, driver);
+            System.out.println("entry: " + entry);
+            bucket.setEntry(entry);         //  the entry is in bucket but it is not in the bucketList
+            bucketList.add(entry);
+            System.out.println("bucket" + bucketNumber + ": " + bucket);
+            //   create new list
+            //   add new entry to the list
+            //   initialize bucketlist with the created list
+
+            //   in the future we add entries to the bucketlist
 
 
-                entriesContainer.add(bucketNumber, bucket);              //  Each entry is added to the list !!!!!
-                System.out.println("entriesContainer: " + entriesContainer);
-                System.out.println("hm.entriesContainer: " + hm.entriesContainer);
-                System.out.println("=====================");
-                 if(checkIfBucketNumberWasUsed(bucketNumber, bucket, bucketSize)) {
-                     System.out.println();
-                    if(checkIfCollisionIs(entry, bucket, hashCodeValue, bucketSize, i)) {
-                        //  replace the previous object
-                        //bucket.setEntry(entry);
-
-                    } else {
-                        //  add to the bucket as next object
-                    }
-                }
+            entriesContainer.add(bucketNumber, bucket);              //  Each entry is added to the list !!!!!
+            System.out.println("entriesContainer: " + entriesContainer);
+            System.out.println("=====================");
+            if(checkIfBucketNumberWasUsed(bucketNumber, bucket, bucketSize)) {
                 System.out.println();
+                if(checkIfCollisionIs(entry, bucket, hashCodeValue, bucketSize, i)) {
+                    //  replace the previous object
+                    //bucket.setEntry(entry);
+
+                } else {
+                    //  add to the bucket as next object
+                }
+            }
+            System.out.println();
 
                 /*if (countFilledSpaces(hm, mapSize) == mapSize * hm.getDEFAULT_LOAD_FACTOR() / 100) {
                     mapSize = mapSize * 2;
@@ -94,7 +102,6 @@ public class HashMap {
                     System.out.println("New map size: " + mapSize);
                     return;
                 }*/
-            }
         }
     }
 
