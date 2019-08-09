@@ -7,7 +7,7 @@ public class Demo {
         //Operations operations = new Operations();
         Bucket bucket = new Bucket();
 
-        Method m = Bucket.class.getDeclaredMethod("checkIfBucketIsEmpty");  // Using getDeclareMethod() method
+        Method m = Bucket.class.getDeclaredMethod("start");  // Using getDeclareMethod() method
         m.setAccessible(true);    // Using setAccessible() method
         m.invoke(bucket);   // Using invoke() method
     }

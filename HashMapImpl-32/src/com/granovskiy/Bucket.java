@@ -9,14 +9,33 @@ public class Bucket {
     private int bucketSize = 16;
     private List<Node> bucketList = new ArrayList<Node>(16);
 
-    public boolean checkIfBucketIsEmpty(List<Node> bucketList){
-        System.out.println(!bucketList.isEmpty());
-        return !bucketList.isEmpty();
+    Provider provider = new Provider();
+
+    public void start() {
+        checkIfBucketIsEmpty(bucketList);
+    }
+
+    private void checkIfBucketIsEmpty(List<Node> bucketList){
+        System.out.println(bucketList.isEmpty());
+        if(bucketList.isEmpty()) {
+            // call method addOneEntry
+            Car car = new Car(0);
+            Driver driver = new Driver(provider.getDriverNames()[0]);
+            Node<Car, Driver> node = new Node<>(car, driver);
+            System.out.println();
+            System.out.println(node);
+            System.out.println("===================");
+            System.out.println(bucketList);
+            bucketList.add(node);
+            System.out.println(bucketList);
+        } else {
+            // call method addSomeEntries (creating node list)
+        }
     }
 
 
     //  в методі addEntry якщо size 0, тоді пишемо в node - bucket
-    public List<Node> addEntry(Node<Car, Driver> node) {
+    private List<Node> addEntry(Node<Car, Driver> node) {
         if(bucketSize == 0) {
             bucketList.add(node);
             System.out.println(bucketList);
