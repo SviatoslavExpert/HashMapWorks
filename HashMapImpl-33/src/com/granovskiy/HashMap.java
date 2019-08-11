@@ -10,8 +10,6 @@ public class HashMap {
     private Bucket bucket;
     private List<Bucket> bucketList = new ArrayList<>(DEFAULT_CAPACITY);  // entriesContainer initialized
 
-
-
     //  MY METHODS
     public void makeEmptyHashMap() {
         HashMap hm = new HashMap();
