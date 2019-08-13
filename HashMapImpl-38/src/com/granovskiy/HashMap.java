@@ -1,6 +1,7 @@
 package com.granovskiy;
 
 import java.util.*;
+import java.lang.Object;
 
 public class HashMap implements Map {
     private static final int DEFAULT_CAPACITY = 16;
@@ -16,58 +17,49 @@ public class HashMap implements Map {
         System.out.print("bucketList: " + bucketList);
     }
 
-    public void put(Car car, Driver driver) {
-        int hashCodeValue = car.hashCode();
-        int bucketNumber = hashCodeValue % mapSize;
+    public Object put(Object key, Object value) {
+        int bucketNumber = getbucketNumber(key, value);
+        Bucket bucketSearched = findTheBucketSearched(bucketList, bucketNumber, key, value);
+        return processNode(bucketSearched, key, value);
+    }
+
+    private int getbucketNumber(Object key, Object value) {
+        int hashCodeValue = key.hashCode();
+        int bucketNumberValue = hashCodeValue % mapSize;
         System.out.println();
-        System.out.print("bucketNumber: " + bucketNumber + ", ");
-        findTheBucketSearched(bucketList, bucketNumber, car, driver);
+        System.out.print("bucketNumber: " + bucketNumberValue + ", ");
+        return bucketNumberValue;
     }
 
-    private void findTheBucketSearched(List<Bucket> bucketList, int bucketNumber, Car car, Driver driver) {
-        Bucket bucketSearched = bucketList.get(bucketNumber);
-        checkNodesInTheBucketSearched(bucketSearched, car, driver);
+    private Bucket findTheBucketSearched(List<Bucket> bucketList, int bucketNumber, Object key, Object value) {
+        return bucketList.get(bucketNumber);
     }
 
-    private void checkNodesInTheBucketSearched(Bucket bucketSearched, Car car, Driver driver){
-        int checkNodesResult = 10;
+    private Object processNode(Bucket bucketSearched, Object key, Object value){
+        Object resultObject = null;
+        Node node = new Node(key, value);
         if(bucketSearched.getNode() == null && bucketSearched.getNodeList().isEmpty()) {
-            checkNodesResult = 0;
+            resultObject = processEmptyNodeEmptyList(node, bucketSearched);
         }
         if(bucketSearched.getNode() != null && bucketSearched.getNodeList().isEmpty()) {
-            checkNodesResult = 1;
+            resultObject = processFullNodeEmptyList(node, bucketSearched);
         }
-
         if(bucketSearched.getNode() == null && !bucketSearched.getNodeList().isEmpty()) {
-            checkNodesResult = 2;
+            resultObject = processEmptyNodeSomeList(node, bucketSearched);
         }
-        System.out.print("checkNodesResult: " + checkNodesResult + " ");
-        putNode(checkNodesResult, car, driver, bucketSearched);
+        return resultObject;
     }
 
-    private void putNode(int checkNodesResult, Car car, Driver driver, Bucket bucketSearched) {
-        Node node = new Node(car, driver);
-        if(checkNodesResult == 0) {
-            processEmptyNodeEmptyList(node, bucketSearched);
-        }
-        if(checkNodesResult == 1) {
-            //checkIfCollisionIs();
-            processFullNodeEmptyList(node, bucketSearched);
-        }
-        if(checkNodesResult == 2) {
-            processEmptyNodeSomeList(node, bucketSearched);
-        }
-    }
-
-    private void processEmptyNodeEmptyList(Node node, Bucket bucketSearched) {
+    private Object processEmptyNodeEmptyList(Node node, Bucket bucketSearched) {
         System.out.println("bucketSearched.getNode()0: " + bucketSearched.getNode());
         bucketSearched.setNode(node);
         System.out.print("My node: " + node);
         System.out.println();
         System.out.print(bucketSearched);
+        return null;
     }
 
-    private void processFullNodeEmptyList(Node node, Bucket bucketSearched) {
+    private Object processFullNodeEmptyList(Node node, Bucket bucketSearched) {
         System.out.println("bucketSearched.getNode() 1 previous: " + bucketSearched.getNode());  //    !!!
         Node previousNode = bucketSearched.getNode();
         bucketSearched.getNodeList().add(0, previousNode);
@@ -76,11 +68,13 @@ public class HashMap implements Map {
         System.out.print("My node: " + node);
         System.out.println();
         System.out.print(bucketSearched);
+        return null;
     }
 
-    private void processEmptyNodeSomeList(Node node, Bucket bucketSearched) {
+    private Object processEmptyNodeSomeList(Node node, Bucket bucketSearched) {
         bucketSearched.getNodeList().add(node);
         bucketSearched.setNode(null);    //    !!!!!
+        return null;
     }
 
 /*
@@ -114,10 +108,10 @@ public class HashMap implements Map {
         return null;
     }
 
-    @Override
+/*    @Override
     public Object put(Object key, Object value) {
         return null;
-    }
+    }*/
 
     @Override
     public Object remove(Object key) {
