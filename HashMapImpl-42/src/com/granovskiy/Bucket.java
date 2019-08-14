@@ -7,7 +7,7 @@ public class Bucket {
     private Node<Car, Driver> node;
     private int index;
     private int bucketSize = 16;
-    private List<Node> nodeList = new ArrayList<Node>(16);
+    private List<Node> nodeList = new ArrayList<>(16);
 
     public Node<Car, Driver> getNode() {
         return node;

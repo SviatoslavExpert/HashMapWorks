@@ -4,7 +4,7 @@ public class Demo {
     public static void main(String[] args) {
         HashMap hashMap = new HashMap();
         Provider provider = new Provider();
-        hashMap.makeEmptyHashMap();
+        hashMap.makeEmptyHashMap(hashMap.getDefaultCapacity());
         System.out.println();
         for (int i = 0; i < 30; i++) {
             Car car = new Car(i);

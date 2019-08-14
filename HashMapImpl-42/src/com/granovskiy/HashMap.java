@@ -5,19 +5,25 @@ import java.util.*;
 public class HashMap implements Map<Car, Driver> {
     private static final int DEFAULT_CAPACITY = 16;
     private final int DEFAULT_LOAD_FACTOR = 75;
-    private int mapSize = 16;
+    private int mapSize = DEFAULT_CAPACITY;
     private List<Bucket> bucketList = new ArrayList<>(DEFAULT_CAPACITY);  // entriesContainer initialized
 
-    void makeEmptyHashMap() {
-        for (int i = 0; i < DEFAULT_CAPACITY; i++) {
+    public static int getDefaultCapacity() {
+        return DEFAULT_CAPACITY;
+    }
+
+    public void makeEmptyHashMap(int mapSize) {
+        for (int i = 0; i < mapSize; i++) {
             Bucket bucket = new Bucket();
             bucketList.add(bucket);
         }
         System.out.print("bucketList: " + bucketList);
+        //return bucketList;
     }
 
     @Override
     public Driver put(Car car, Driver driver) {
+        //checkIfLoadFactorIs(bucketList);
         int bucketNumber = getBucketNumber(car);
         Bucket bucketSearched = findTheBucketSearched(bucketList, bucketNumber, car, driver);
         return processNode(bucketSearched, car, driver);
@@ -55,42 +61,70 @@ public class HashMap implements Map<Car, Driver> {
         System.out.println("Original node state: " + bucketSearched.getNode());
         bucketSearched.setNode(node);
         System.out.println("Bucket state: " + bucketSearched);
+        System.out.println("bucketList: " + bucketList);
         return null;
     }
 
     private Driver processFullNodeEmptyList(Node node, Bucket bucketSearched) {
-        System.out.println("Original node state: " + bucketSearched.getNode());  //    !!!
+        System.out.println("Original node state: " + bucketSearched.getNode());
         Node previousNode = bucketSearched.getNode();
+        Driver processNodeResult = null;
+        if(checkNodeIfCollisionIs(node, bucketSearched)) {
+            processNodeResult = bucketSearched.getNode().getDriver();
+        }
         bucketSearched.getNodeList().add(0, previousNode);
-
-        boolean collisionIs = checkIfCollisionIs(node, bucketSearched);
-
-
         bucketSearched.getNodeList().add(1, node);
-        bucketSearched.setNode(null);    //    !!!!!
+        bucketSearched.setNode(null);
         System.out.println("New node: " + node);
         System.out.println("Bucket state: " + bucketSearched);
-        return null;  // previousNode.getDriver()
+        System.out.println("bucketList: " + bucketList);
+        return processNodeResult;
     }
 
     private Driver processEmptyNodeSomeList(Node node, Bucket bucketSearched) {
-        //boolean collisionIs = checkIfCollisionIs(node, bucketSearched);
+        Driver processListResult = checkListIfCollisionIs(node, bucketSearched);
         bucketSearched.getNodeList().add(node);
         System.out.println("New node: " + node);
         System.out.println("Bucket state: " + bucketSearched);
-        return null;
+        System.out.println("bucketList: " + bucketList);
+        return processListResult;
     }
 
-    private boolean checkIfCollisionIs(Node node, Bucket bucketSearched) {
+    private boolean checkNodeIfCollisionIs(Node node, Bucket bucketSearched) {
         boolean booleanResult = false;
+        if (node.getCar().hashCode() == bucketSearched.getNode().getCar().hashCode()) {
+            booleanResult = true;
+        }
+        System.out.println("Node collision: " + booleanResult);
+        return booleanResult;
+    }
+
+    private Driver checkListIfCollisionIs(Node node, Bucket bucketSearched) {
+        Driver processListResult = null;
         for (int i = 0; i < bucketSearched.getNodeList().size(); i++) {
-            if (node.getCar().hashCode() == bucketSearched.getNodeList().get(i).hashCode()
-                || node.getCar().hashCode() == bucketSearched.getNode().getCar().hashCode()) {  //  bug is here
-                booleanResult = true;
+            if (node.getCar().hashCode() == bucketSearched.getNodeList().get(i).getCar().hashCode()) {
+                processListResult = (Driver) bucketSearched.getNodeList().get(i).getDriver();
             }
         }
-        System.out.println("Collision: " + booleanResult);
-        return booleanResult;
+        System.out.println("List collision: " + processListResult);
+        return processListResult;
+    }
+
+    //@Override
+    public Driver get(Car car) {
+        Driver object = null;
+        for (int i = 0; i < bucketList.size(); i++) {
+            if(car.equals(bucketList.get(i).getNode().getCar())) {
+                object = bucketList.get(i).getNode().getDriver();
+            }
+            for (int j = 0; j < bucketList.get(i).getNodeList().size(); j++) {
+                if(car.equals(bucketList.get(i).getNode().getCar())) {
+                    object = (Driver) bucketList.get(i).getNodeList().get(j).getDriver();
+                }
+            }
+
+        }
+        return null;
     }
 
     @Override
@@ -113,10 +147,10 @@ public class HashMap implements Map<Car, Driver> {
         return false;
     }
 
-    @Override
+/*    @Override
     public Driver get(Object key) {
         return null;
-    }
+    }*/
 
 /*    @Override
     public Object put(Object key, Object value) {
@@ -153,6 +187,31 @@ public class HashMap implements Map<Car, Driver> {
         return null;
     }
 }
+
+
+
+/*    private void checkIfLoadFactorIs(List<Bucket> bucketList) {
+        int count = 0;
+        for (int i = 0; i < bucketList.size(); i++) {
+            if(bucketList.get(i) != null) {
+                count++;
+            }
+        }
+        if(count / bucketList.size() >= DEFAULT_LOAD_FACTOR / 100) {
+            makeEmptyHashMap(mapSize * 2);
+            reindexAndMakeNewBucketList(bucketList);
+        }
+        //return bucketList;
+    }
+
+    private List<Bucket> reindexAndMakeNewBucketList(List<Bucket> bucketList) {
+
+    }*/
+
+
+
+
+
 
 
 /*    @Override
