@@ -112,8 +112,35 @@ public class HashMap implements Map<Car, Driver> {
 
     @Override
     public Driver get(Object key) {
+        Car car = (Car) key;
+        Driver objectDriver = null;
+        for (int i = 0; i < bucketList.size(); i++) {
+            objectDriver = checkBucket(bucketList.get(i), car);
+            System.out.println("objectDriver: " + objectDriver);
 
-        return null;
+        }
+        System.out.println("objectDriver 2: " + objectDriver);
+        return objectDriver;
+    }
+
+    private Driver checkBucket(Bucket bucketSearched, Car car) {
+        Driver checkBucketObject = null;
+        if(bucketSearched.getNode() != null) {  // counting filled nodes inside one bucket
+            System.out.println("bucketSearched.getNode()" + bucketSearched.getNode());
+            if(car.equals(bucketSearched.getNode().getCar())){
+                System.out.println("The object is found: " + bucketSearched.getNode().getCar() + " " + bucketSearched.getNode().getDriver());
+                checkBucketObject = bucketSearched.getNode().getDriver();
+            }
+            // bucket.getNode().getDriver() != null
+            //checkBucketObject = bucket.getNode().getDriver();
+            //bucket.getNode().getCar() != null || car.equals(bucket.getNode().getCar())
+            System.out.println("Hello again!");
+        }
+        if(!bucketSearched.getNodeList().isEmpty()) {
+            System.out.println("bucketSearched.getNodeList()" + bucketSearched.getNodeList());
+        }
+        System.out.println("checkBucketObject: " + checkBucketObject);
+        return checkBucketObject;
     }
 
     @Override
@@ -136,10 +163,7 @@ public class HashMap implements Map<Car, Driver> {
         return false;
     }
 
-/*    @Override
-    public Driver get(Object key) {
-        return null;
-    }*/
+
 
 /*    @Override
     public Object put(Object key, Object value) {
@@ -176,6 +200,18 @@ public class HashMap implements Map<Car, Driver> {
         return null;
     }
 }
+
+
+/*            if(bucketList.get(i).getNode().getCar() != null *//*|| key.equals(bucketList.get(i).getNode().getCar())*//*) {
+                System.out.println();
+                objectDriver = bucketList.get(i).getNode().getDriver();
+            }*/
+/*            for (int j = 0; j < bucketList.get(i).getNodeList().size(); j++) {
+                if(key.equals(bucketList.get(i).getNode().getCar())) {
+                    objectDriver = (Driver) bucketList.get(i).getNodeList().get(j).getDriver();
+                }
+            }*/
+//System.out.println("Hello!");
 
 
 
