@@ -19,29 +19,27 @@ public class HashMap implements Map<Car, Driver> {
     public void makeEmptyHashMap(int mapSize, List<Bucket> bucketList) {
         for (int i = 0; i < mapSize; i++) {
             Bucket bucket = new Bucket();
+            bucket.setIndex(i);
             bucketList.add(bucket);
         }
         System.out.print("bucketList: " + bucketList);
     }
 
+    //  METHOD PUT
     @Override
     public Driver put(Car car, Driver driver) {
         //checkIfLoadFactorIs(bucketList);
-        int bucketNumber = getBucketNumber(car);
-        Bucket bucketSearched = findTheBucketSearched(bucketList, bucketNumber, car, driver);
+        int bucketNumber = getBucketNumberForPutting(car);
+        Bucket bucketSearched = bucketList.get(bucketNumber);
         return processNode(bucketSearched, car, driver);
     }
 
-    private int getBucketNumber(Car car) {
+    private int getBucketNumberForPutting(Car car) {
         int hashCodeValue = car.hashCode();
         int bucketNumberValue = hashCodeValue % mapSize;
         System.out.println();
         System.out.println("bucketNumber: " + bucketNumberValue + ", ");
         return bucketNumberValue;
-    }
-
-    private Bucket findTheBucketSearched(List<Bucket> bucketList, int bucketNumber, Car car, Driver driver) {
-        return bucketList.get(bucketNumber);
     }
 
     private Driver processNode(Bucket bucketSearched, Car car, Driver driver) {
@@ -136,6 +134,7 @@ public class HashMap implements Map<Car, Driver> {
         return null;
     }
 
+    //  METHOD GET
     @Override
     public Driver get(Object key) {
         Car car = (Car) key;
@@ -155,7 +154,9 @@ public class HashMap implements Map<Car, Driver> {
         if (bucketSearched.getNode() != null) {  // counting filled nodes inside one bucket
             System.out.println("bucketSearched.getNode()" + bucketSearched.getNode());
             if (car.equals(bucketSearched.getNode().getCar())) {
-                System.out.println("The object is found in the node: " + bucketSearched.getNode().getCar() + " " + bucketSearched.getNode().getDriver());
+                System.out.println("The object is found in the node: " +
+                        bucketSearched.getNode().getCar() + " " + bucketSearched.getNode().getDriver() +
+                        " bucketIndex" + bucketSearched.getIndex());
                 checkBucketObject = bucketSearched.getNode().getDriver();
                 if (checkBucketObject != null) {
                     System.out.println("checkBucketObject: " + checkBucketObject);
@@ -169,7 +170,8 @@ public class HashMap implements Map<Car, Driver> {
                 if (car.equals(bucketSearched.getNodeList().get(i).getCar())) {
                     System.out.println("The object is found in the nodeList: " +
                             bucketSearched.getNodeList().get(i).getCar() + " " +
-                            bucketSearched.getNodeList().get(i).getDriver());
+                            bucketSearched.getNodeList().get(i).getDriver() +
+                            " bucketIndex" + bucketSearched.getIndex());
                     checkBucketObject = (Driver) bucketSearched.getNodeList().get(i).getDriver();
                     if (checkBucketObject != null) {
                         System.out.println("checkBucketObject: " + checkBucketObject);

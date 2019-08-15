@@ -6,17 +6,13 @@ public class HashMap implements Map<Car, Driver> {
     private static final int DEFAULT_CAPACITY = 16;
     private final int DEFAULT_LOAD_FACTOR = 75;
     private int mapSize = DEFAULT_CAPACITY;
-    private List<Bucket> bucketList = new ArrayList<>(mapSize);  // entriesContainer initialized
+    private List<Bucket> bucketList = new ArrayList<>(DEFAULT_CAPACITY);  // entriesContainer initialized
 
-    public int getMapSize() {
-        return mapSize;
+    public static int getDefaultCapacity() {
+        return DEFAULT_CAPACITY;
     }
 
-    public List<Bucket> getBucketList() {
-        return bucketList;
-    }
-
-    public void makeEmptyHashMap(int mapSize, List<Bucket> bucketList) {
+    public void makeEmptyHashMap(int mapSize) {
         for (int i = 0; i < mapSize; i++) {
             Bucket bucket = new Bucket();
             bucketList.add(bucket);
@@ -24,6 +20,7 @@ public class HashMap implements Map<Car, Driver> {
         System.out.print("bucketList: " + bucketList);
     }
 
+    //   METHOD PUT
     @Override
     public Driver put(Car car, Driver driver) {
         //checkIfLoadFactorIs(bucketList);
@@ -113,41 +110,24 @@ public class HashMap implements Map<Car, Driver> {
         return processListResult;
     }
 
-    private void checkIfLoadFactorIs(List<Bucket> bucketList) {
-        int count = 0;
-        for (int i = 0; i < bucketList.size(); i++) {
-            if(bucketList.get(i) != null) {
-                count++;
-            }
-        }
-        if(count / bucketList.size() >= DEFAULT_LOAD_FACTOR / 100) {
-            int newMapSize = mapSize * 2;
-            makeEmptyHashMap(newMapSize, bucketList);
-            reindexAndMakeNewBucketList(bucketList, newMapSize);
-        }
-        //return bucketList;
-    }
-
-    private List<Bucket> reindexAndMakeNewBucketList(List<Bucket> bucketList, int newMapSize) {
-        int bucketListSize = bucketList.size();
-        for (int i = 0; i < bucketListSize; i++) {
-
-        }
-        return null;
-    }
-
+    //   METHOD GET
     @Override
     public Driver get(Object key) {
         Car car = (Car) key;
-        Driver objectDriver = null;
-        for (int i = 0; i < bucketList.size(); i++) {
+        int hashCodeValue = car.hashCode();
+        int bucketNumberValue = hashCodeValue % mapSize;
+        System.out.println("hashCodeValue: " + hashCodeValue + " mapSize: " + mapSize);
+        System.out.println("bucketList.get(bucketNumberValue)" + " " + bucketNumberValue + " " + bucketList.get(bucketNumberValue));
+        return checkBucket(bucketList.get(bucketNumberValue), car);
+
+/*        for (int i = 0; i < bucketList.size(); i++) {
             objectDriver = checkBucket(bucketList.get(i), car);
             if (objectDriver != null) {
-                return objectDriver;
+
             }
-        }
-        System.out.println("objectDriver 2: " + objectDriver);
-        return objectDriver;
+        }*/
+        //System.out.println("objectDriver 2: " + objectDriver);
+        //return objectDriver;
     }
 
     private Driver checkBucket(Bucket bucketSearched, Car car) {
@@ -255,7 +235,23 @@ public class HashMap implements Map<Car, Driver> {
 
 
 
+/*    private void checkIfLoadFactorIs(List<Bucket> bucketList) {
+        int count = 0;
+        for (int i = 0; i < bucketList.size(); i++) {
+            if(bucketList.get(i) != null) {
+                count++;
+            }
+        }
+        if(count / bucketList.size() >= DEFAULT_LOAD_FACTOR / 100) {
+            makeEmptyHashMap(mapSize * 2);
+            reindexAndMakeNewBucketList(bucketList);
+        }
+        //return bucketList;
+    }
 
+    private List<Bucket> reindexAndMakeNewBucketList(List<Bucket> bucketList) {
+
+    }*/
 
 
 
