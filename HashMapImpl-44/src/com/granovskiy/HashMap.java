@@ -116,6 +116,9 @@ public class HashMap implements Map<Car, Driver> {
         Driver objectDriver = null;
         for (int i = 0; i < bucketList.size(); i++) {
             objectDriver = checkBucket(bucketList.get(i), car);
+            if(objectDriver != null) {
+                return objectDriver;
+            }
             System.out.println("objectDriver: " + objectDriver);
 
         }
@@ -134,7 +137,6 @@ public class HashMap implements Map<Car, Driver> {
             // bucket.getNode().getDriver() != null
             //checkBucketObject = bucket.getNode().getDriver();
             //bucket.getNode().getCar() != null || car.equals(bucket.getNode().getCar())
-            System.out.println("Hello again!");
         }
         if(!bucketSearched.getNodeList().isEmpty()) {
             System.out.println("bucketSearched.getNodeList()" + bucketSearched.getNodeList());
