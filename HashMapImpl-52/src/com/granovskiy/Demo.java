@@ -12,7 +12,11 @@ public class Demo {
             System.out.println("Method put returns: " + hashMap.put(car, driver));
             System.out.println();
         }
-        Car car1 = new Car(12);
-        System.out.println("Method get returns: " + hashMap.get(car1));
+        Car carFromMainMethod = new Car(12);
+        System.out.println("Info from main method: ");
+        System.out.println("carFromMainMethod.hashCode(): " + carFromMainMethod.hashCode());
+        System.out.println("bucket for the carFromMainMethod : " + carFromMainMethod.hashCode() % 16);
+        System.out.println("Method get returns: " + hashMap.get(carFromMainMethod));
+        System.out.println();
     }
 }
